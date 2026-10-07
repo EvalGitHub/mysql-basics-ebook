@@ -367,12 +367,18 @@
 
     function updateActiveTOC() {
       const hash = window.location.hash.replace('#', '');
-      const activeId = hash.split('/')[0];
+      const parts = hash.split('/');
+      const activeId = parts[0];
+      const activeAnchor = parts[1] || null;
       document.querySelectorAll('.toc-chapter-title').forEach(a => {
         a.classList.toggle('active', a.dataset.id === activeId);
       });
       document.querySelectorAll('.toc-children a').forEach(a => {
-        a.classList.toggle('active', a.dataset.chapter === activeId);
+        if (activeAnchor) {
+          a.classList.toggle('active', a.dataset.chapter === activeId && a.dataset.anchor === activeAnchor);
+        } else {
+          a.classList.remove('active');
+        }
       });
     }
 
